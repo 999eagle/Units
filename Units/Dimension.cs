@@ -45,6 +45,14 @@ namespace Units
 			return new Dimension(-rhs.Length, -rhs.Mass, -rhs.Time, -rhs.Current, -rhs.Temperature, -rhs.Substance, -rhs.LuminousIntensity, -rhs.Angle);
 		}
 
+		public static Dimension operator *(Dimension lhs, Dimension rhs) => lhs + rhs;
+		public static Dimension operator /(Dimension lhs, Dimension rhs) => lhs - rhs;
+
+		public static Dimension operator ^(Dimension lhs, int rhs)
+		{
+			return new Dimension(lhs.Length * rhs, lhs.Mass * rhs, lhs.Time * rhs, lhs.Current * rhs, lhs.Temperature * rhs, lhs.Substance * rhs, lhs.LuminousIntensity * rhs, lhs.Angle * rhs);
+		}
+
 		public static bool operator ==(Dimension lhs, Dimension rhs)
 		{
 			return lhs.Equals(rhs);
