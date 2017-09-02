@@ -104,59 +104,121 @@ namespace Units
 			else return unit;
 		}
 
-		public static bool TryParseUnit(string text, out Unit result)
+		private static IEnumerable<(string name, int exponent)> ParseUnits(string text)
 		{
-			result = default;
 			if (text.Contains("/"))
 			{
 				var split = text.Split('/');
-				if (split.Length > 2) return false;
-				if (!TryParseUnit(split[0], out var num) || !TryParseUnit(split[1], out var den)) return false;
-				result = num / den;
+				if (split.Length > 2) return null;
+				return ParseUnits(split[0]).Union(ParseUnits(split[1]).Select(t => (t.name, -t.exponent)));
 			}
 			else if (text.Contains("*"))
 			{
-				var units = text.Split('*')
-					.Select(s => { var success = TryParseUnit(s, out var unit); return (success, unit); });
-				if (units.Any(t => !t.success)) return false;
-				result = units.Aggregate(Scalar, (s, t) => s * t.unit);
-				var name = units.Aggregate("", (s, t) => $"{s}{(s != "" ? "*" : "")}{t.unit.Name}");
-				result = new Unit(name, result);
+				var split = text.Split('*');
+				return split.Select(s => ParseUnits(s)).Aggregate(Enumerable.Union);
 			}
 			else if (text.Contains("^"))
 			{
 				var split = text.Split('^');
-				if (split.Length > 2) return false;
-				if (!TryParseUnit(split[0], out var unit)) return false;
-				if (!Int32.TryParse(split[1], out var exp)) return false;
-				result = new Unit($"{unit.Name}^{exp}", unit ^ exp);
+				if (split.Length > 2) return null;
+				if (!Int32.TryParse(split[1], out var exp)) return null;
+				return new[] { (name: split[0], exponent: exp) };
+			}
+			else
+			{
+				return new[] { (name: text, exponent: 1) };
+			}
+		}
+
+		private static string CreateName(IEnumerable<(string name, int exponent)> units)
+		{
+			string SingleUnitName(string name, int exponent) => $"{name}{(exponent > 1 ? $"^{exponent}" : "")}";
+
+			string num = String.Join("*", units.Where(t => t.exponent > 0).Select(t => SingleUnitName(t.name, t.exponent)));
+			string den = String.Join("*", units.Where(t => t.exponent < 0).Select(t => SingleUnitName(t.name, -t.exponent)));
+			if (num == "") { num = "1"; }
+			if (den == "") { return num; }
+			else { return $"{num}/{den}"; }
+		}
+
+		private static (IEnumerable<(string name, int exponent)> basicUnits, Unit unit, bool success) ParseUnitInternal(string text)
+		{
+			(IEnumerable<(string name, int exponent)> basicUnits, Unit unit, bool success) failed = (null, default, false);
+			(IEnumerable<(string name, int exponent)> basicUnits, Unit unit) result;
+
+			if (text.Contains("/"))
+			{
+				var split = text.Split('/');
+				if (split.Length > 2) return failed;
+				var num = ParseUnitInternal(split[0]);
+				var den = ParseUnitInternal(split[1]);
+				if (!num.success || !den.success) return failed;
+
+				result = (num.basicUnits.Union(den.basicUnits.Select(t => (t.name, -t.exponent))), num.unit / den.unit);
+			}
+			else if (text.Contains("*"))
+			{
+				var units = text.Split('*').Select(ParseUnitInternal);
+				if (units.Any(t => !t.success)) return failed;
+
+				result = (units.Select(t => t.basicUnits).Aggregate(Enumerable.Union), units.Select(t => t.unit).Aggregate(Scalar, (s, t) => s * t));
+			}
+			else if (text.Contains("^"))
+			{
+				var split = text.Split('^');
+				if (split.Length > 2) return failed;
+				if (!Int32.TryParse(split[1], out var exp)) return failed;
+				if (exp == 0)
+				{
+					result = (new[] { (name: "1", exponent: 0) }, Scalar);
+				}
+				else
+				{
+					var unit = ParseUnitInternal(split[0]);
+					if (!unit.success) return failed;
+					result = (new[] { (name: unit.basicUnits.First().name, exponent: exp) }, unit.unit ^ exp);
+				}
 			}
 			else
 			{
 				text = text.Trim();
 				// Try getting a basic defined unit
-				result = knownUnits.FirstOrDefault(u => u.Name == text);
-				if (result.Dimension != Dimension.ScalarDimension) return true;
-				// No basic unit found, try parsing a SI prefix
-				if (text.Length <= 1) return false;
-				var prefix = text[0];
-				var ratio = Util.GetPrefixRatio(prefix);
-				if (!ratio.IsValid) return false;
-				// Valid prefix found, check for a unit again
-				text = text.Substring(1);
-				result = knownUnits.FirstOrDefault(u => u.Name == text);
-				if (result.Dimension == Dimension.ScalarDimension) return false;
-				result = new Unit(prefix + result.Name, result, ratio);
-			}
-			// Store new unit as known unit
-			var newUnit = result;
-			var knownUnit = knownUnits.FirstOrDefault(u => u == newUnit);
-			if (knownUnit.Dimension != newUnit.Dimension)
-			{
-				if (newUnit.Name != "")
+				var unit = knownUnits.FirstOrDefault(u => u.Name == text);
+				if (unit.Dimension == Dimension.ScalarDimension)
 				{
-					knownUnits.Add(newUnit);
+					// No basic unit found, try parsing a SI prefix
+					if (text.Length <= 1) return failed;
+					var prefix = text[0];
+					var ratio = Util.GetPrefixRatio(prefix);
+					if (!ratio.IsValid) return failed;
+					// Valid prefix found, check for a unit again
+					var unprefixedName = text.Substring(1);
+					unit = knownUnits.FirstOrDefault(u => u.Name == unprefixedName);
+					if (unit.Dimension == Dimension.ScalarDimension) return failed;
 				}
+				result = (new[] { (name: text, exponent: 1) }, unit);
+			}
+
+			return (result.basicUnits, result.unit, true);
+		}
+
+		public static bool TryParseUnit(string text, out Unit result)
+		{
+			var parsed = ParseUnitInternal(text);
+			if (!parsed.success)
+			{
+				result = default;
+				return false;
+			}
+			// Create normalized name for parsed unit
+			var name = CreateName(parsed.basicUnits);
+			var unit = new Unit(name, parsed.unit);
+			// Store new unit as known unit
+			var knownUnit = knownUnits.FirstOrDefault(u => u == unit);
+			if (knownUnit.Dimension != unit.Dimension)
+			{
+				knownUnits.Add(unit);
+				result = unit;
 			}
 			else
 			{
