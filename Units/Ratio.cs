@@ -86,6 +86,8 @@ namespace Units
 
 		public bool Equals(Ratio other)
 		{
+			if (!IsValid && !other.IsValid) return true;
+			if (!IsValid || !other.IsValid) return false;
 			return other.Numerator * Denominator == Numerator * other.Denominator;
 		}
 
