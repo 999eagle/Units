@@ -61,10 +61,10 @@ namespace Units
 
 		// Other stuff
 		public static readonly Unit Gram = new Unit("g", Kilogram, new Ratio(1000));
-		public static readonly Unit SquareMeter = Meter * Meter;
-		public static readonly Unit CubicMeter = Meter * Meter * Meter;
+		public static readonly Unit SquareMeter = new Unit("m^2", Meter * Meter);
+		public static readonly Unit CubicMeter = new Unit("m^3", Meter * Meter * Meter);
 		public static readonly Unit Liter = new Unit("l", CubicMeter, new Ratio(1000));
-		public static readonly Unit MetersPerSecond = Meter / Second;
+		public static readonly Unit MetersPerSecond = new Unit("m/s", Meter / Second);
 
 		private static IList<Unit> knownUnits =
 			typeof(Unit).GetFields()
@@ -150,9 +150,18 @@ namespace Units
 			}
 			// Store new unit as known unit
 			var newUnit = result;
-			if (result.Name != "" && !knownUnits.Any(u => u == newUnit))
+			var knownUnit = knownUnits.FirstOrDefault(u => u == newUnit);
+			if (knownUnit.Dimension != newUnit.Dimension)
 			{
-				knownUnits.Add(result);
+				if (newUnit.Name != "")
+				{
+					knownUnits.Add(newUnit);
+				}
+			}
+			else
+			{
+				// return known unit if one exists
+				result = knownUnit;
 			}
 			return true;
 		}
