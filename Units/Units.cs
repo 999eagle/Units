@@ -195,6 +195,7 @@ namespace Units
 					var unprefixedName = text.Substring(1);
 					unit = knownUnits.FirstOrDefault(u => u.Name == unprefixedName);
 					if (unit.Dimension == Dimension.ScalarDimension) return failed;
+					unit = new Unit(text, unit, ratio);
 				}
 				result = (new[] { (name: text, exponent: 1) }, unit);
 			}
