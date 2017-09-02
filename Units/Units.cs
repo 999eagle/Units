@@ -37,22 +37,22 @@ namespace Units
 		public static readonly Unit Lux = new Unit("lx", Dimension.IlluminanceDimension);
 
 		// Length Units
-		public static readonly Unit Centimeter = new Unit("cm", Meter, new Ratio(1, 100));
-		public static readonly Unit Kilometer = new Unit("km", Meter, new Ratio(1000));
-		public static readonly Unit Inch = new Unit("in", Centimeter, new Ratio(254, 100));
-		public static readonly Unit Foot = new Unit("ft", Inch, new Ratio(12));
-		public static readonly Unit Yard = new Unit("yd", Foot, new Ratio(3));
-		public static readonly Unit Rod = new Unit("rd", Foot, new Ratio(165, 10));
-		public static readonly Unit Chain = new Unit("ch", Rod, new Ratio(4));
-		public static readonly Unit Furlong = new Unit("fur", Chain, new Ratio(10));
+		public static readonly Unit Centimeter = new Unit("cm", Meter, new Ratio(100));
+		public static readonly Unit Kilometer = new Unit("km", Meter, new Ratio(1, 1000));
+		public static readonly Unit Inch = new Unit("in", Centimeter, new Ratio(100, 254));
+		public static readonly Unit Foot = new Unit("ft", Inch, new Ratio(1, 12));
+		public static readonly Unit Yard = new Unit("yd", Foot, new Ratio(1, 3));
+		public static readonly Unit Rod = new Unit("rd", Foot, new Ratio(10, 165));
+		public static readonly Unit Chain = new Unit("ch", Rod, new Ratio(1, 4));
+		public static readonly Unit Furlong = new Unit("fur", Chain, new Ratio(1, 10));
 
 		// Time Units
-		public static readonly Unit Minute = new Unit("min", Second, new Ratio(60));
-		public static readonly Unit Hour = new Unit("h", Minute, new Ratio(60));
-		public static readonly Unit Day = new Unit("d", Hour, new Ratio(24));
-		public static readonly Unit Week = new Unit("wk", Day, new Ratio(7));
-		public static readonly Unit Fortnight = new Unit("fn", Week, new Ratio(2));
-		public static readonly Unit Year = new Unit("a", Day, new Ratio(365));
+		public static readonly Unit Minute = new Unit("min", Second, new Ratio(1, 60));
+		public static readonly Unit Hour = new Unit("h", Minute, new Ratio(1, 60));
+		public static readonly Unit Day = new Unit("d", Hour, new Ratio(1, 24));
+		public static readonly Unit Week = new Unit("wk", Day, new Ratio(1, 7));
+		public static readonly Unit Fortnight = new Unit("fn", Week, new Ratio(1, 2));
+		public static readonly Unit Year = new Unit("a", Day, new Ratio(1, 365));
 
 		// Temperature units
 		public static readonly Unit Celsius = new Unit("°C", Kelvin, new Ratio(1), new Ratio(-27315, 100));
@@ -60,8 +60,10 @@ namespace Units
 		public static readonly Unit Rankine = new Unit("°R", Kelvin, new Ratio(9, 5));
 
 		// Other stuff
+		public static readonly Unit Gram = new Unit("g", Kilogram, new Ratio(1000));
 		public static readonly Unit SquareMeter = Meter * Meter;
 		public static readonly Unit CubicMeter = Meter * Meter * Meter;
+		public static readonly Unit Liter = new Unit("l", CubicMeter, new Ratio(1000));
 		public static readonly Unit MetersPerSecond = Meter / Second;
 
 		private static IList<Unit> knownUnits =
