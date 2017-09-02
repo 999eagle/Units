@@ -27,20 +27,20 @@ namespace Units
 		{
 			Name = name;
 			Dimension = baseUnit.Dimension;
-			Scale = baseUnit.Scale * scale;
-			Shift = baseUnit.Shift * scale + shift;
+			Scale = (baseUnit.Scale * scale).GetReduced();
+			Shift = (baseUnit.Shift * scale + shift).GetReduced();
 		}
 
 		public static Unit operator *(Unit lhs, Unit rhs)
 		{
 			if (lhs.Shift != 0 || rhs.Shift != 0) throw new Exception();
-			return GetKnownUnit(lhs.Dimension + rhs.Dimension, lhs.Scale * rhs.Scale, new Ratio(0));
+			return GetKnownUnit(lhs.Dimension + rhs.Dimension, (lhs.Scale * rhs.Scale).GetReduced(), new Ratio(0));
 		}
 
 		public static Unit operator /(Unit lhs, Unit rhs)
 		{
 			if (lhs.Shift != 0 || rhs.Shift != 0) throw new Exception();
-			return GetKnownUnit(lhs.Dimension - rhs.Dimension, lhs.Scale / rhs.Scale, new Ratio(0));
+			return GetKnownUnit(lhs.Dimension - rhs.Dimension, (lhs.Scale / rhs.Scale).GetReduced(), new Ratio(0));
 		}
 
 		public static Unit operator ^(Unit lhs, int rhs)
@@ -55,7 +55,7 @@ namespace Units
 			{
 				scale = new Ratio((int)Math.Pow(lhs.Scale.Numerator, rhs), (int)Math.Pow(lhs.Scale.Denominator, rhs));
 			}
-			return GetKnownUnit(lhs.Dimension ^ rhs, scale, new Ratio(0));
+			return GetKnownUnit(lhs.Dimension ^ rhs, scale.GetReduced(), new Ratio(0));
 		}
 
 		public static bool operator ==(Unit lhs, Unit rhs) => lhs.Equals(rhs);
