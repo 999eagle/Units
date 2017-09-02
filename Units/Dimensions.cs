@@ -13,6 +13,7 @@ namespace Units
 		public static readonly Dimension CurrentDimension = new Dimension(current: 1);
 		public static readonly Dimension TemperatureDimension = new Dimension(temperature: 1);
 		public static readonly Dimension SubstanceDimension = new Dimension(substance: 1);
-		public static readonly Dimension IntensityDimension = new Dimension(intensity: 1);
+		public static readonly Dimension LuminousIntensityDimension = new Dimension(luminousIntensity: 1);
+		public static readonly Dimension AngleDimension = new Dimension(angle: 1);
 	}
 }

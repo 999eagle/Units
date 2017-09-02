@@ -13,7 +13,8 @@ namespace Units
 		public static readonly Unit Ampere = new Unit("A", Dimension.CurrentDimension);
 		public static readonly Unit Kelvin = new Unit("K", Dimension.TemperatureDimension);
 		public static readonly Unit Mole = new Unit("mol", Dimension.SubstanceDimension);
-		public static readonly Unit Candela = new Unit("cd", Dimension.IntensityDimension);
+		public static readonly Unit Candela = new Unit("cd", Dimension.LuminousIntensityDimension);
+		public static readonly Unit Radians = new Unit("rad", Dimension.AngleDimension);
 
 		public static readonly Unit Kilometer = new Unit("km", Meter, new Ratio(1000));
 
