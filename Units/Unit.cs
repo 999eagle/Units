@@ -42,6 +42,21 @@ namespace Units
 			return GetKnownUnit(lhs.Dimension - rhs.Dimension, lhs.Scale / rhs.Scale, new Ratio(0));
 		}
 
+		public static Unit operator ^(Unit lhs, int rhs)
+		{
+			if (lhs.Shift != 0) throw new Exception();
+			Ratio scale;
+			if (rhs < 0)
+			{
+				scale = new Ratio((int)Math.Pow(lhs.Scale.Denominator, -rhs), (int)Math.Pow(lhs.Scale.Numerator, -rhs));
+			}
+			else
+			{
+				scale = new Ratio((int)Math.Pow(lhs.Scale.Numerator, rhs), (int)Math.Pow(lhs.Scale.Denominator, rhs));
+			}
+			return GetKnownUnit(lhs.Dimension ^ rhs, scale, new Ratio(0));
+		}
+
 		public static bool operator ==(Unit lhs, Unit rhs) => lhs.Equals(rhs);
 		public static bool operator !=(Unit lhs, Unit rhs) => !lhs.Equals(rhs);
 		public bool Equals(Unit other) => Dimension == other.Dimension && Scale == other.Scale && Shift == other.Shift;

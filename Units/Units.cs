@@ -8,6 +8,7 @@ namespace Units
 	public partial struct Unit
 	{
 		// Basic units
+		public static readonly Unit Scalar = new Unit("1", Dimension.ScalarDimension);
 		public static readonly Unit Meter = new Unit("m", Dimension.LengthDimension);
 		public static readonly Unit Kilogram = new Unit("kg", Dimension.MassDimension);
 		public static readonly Unit Second = new Unit("s", Dimension.TimeDimension);
@@ -99,6 +100,51 @@ namespace Units
 			var knownUnit = knownUnits.FirstOrDefault(u => u == unit);
 			if (knownUnit.Dimension == unit.Dimension) return knownUnit;
 			else return unit;
+		}
+
+		public static bool TryParseUnit(string text, out Unit result)
+		{
+			result = default;
+			if (text.Contains("/"))
+			{
+				var split = text.Split('/');
+				if (split.Length > 2) return false;
+				if (!TryParseUnit(split[0], out var num) || !TryParseUnit(split[1], out var den)) return false;
+				result = num / den;
+			}
+			else if (text.Contains("*"))
+			{
+				var units = text.Split('*')
+					.Select(s => { var success = TryParseUnit(s, out var unit); return (success, unit); });
+				if (units.Any(t => !t.success)) return false;
+				result = units.Aggregate(Scalar, (s, t) => s * t.unit);
+			}
+			else if (text.Contains("^"))
+			{
+				var split = text.Split('^');
+				if (split.Length > 2) return false;
+				if (!TryParseUnit(split[0], out var unit)) return false;
+				if (!Int32.TryParse(split[1], out var exp)) return false;
+				result = unit ^ exp;
+			}
+			else
+			{
+				text = text.Trim();
+				// Try getting a basic defined unit
+				result = knownUnits.FirstOrDefault(u => u.Name == text);
+				if (result.Dimension != Dimension.ScalarDimension) return true;
+				// No basic unit found, try parsing a SI prefix
+				if (text.Length <= 1) return false;
+				var prefix = text[0];
+				var ratio = Util.GetPrefixRatio(prefix);
+				if (!ratio.IsValid) return false;
+				// Valid prefix found, check for a unit again
+				text = text.Substring(1);
+				result = knownUnits.FirstOrDefault(u => u.Name == text);
+				if (result.Dimension == Dimension.ScalarDimension) return false;
+				result = new Unit(prefix + result.Name, result, ratio);
+			}
+			return true;
 		}
 	}
 }
