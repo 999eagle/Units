@@ -47,6 +47,9 @@ namespace UnitsTests
 			Assert.AreEqual(Unit.Kilogram / Unit.Second, ParseUnit("Mg / ks"));
 
 			Assert.AreEqual(Unit.Scalar, ParseUnit("kg^0*s/Hz^-1"));
+
+			Assert.IsFalse(Unit.TryParseUnit("xs", out u));
+			Assert.IsFalse(Unit.TryParseUnit("f^-1/Hz", out u));
 		}
 
 		[TestMethod]
@@ -55,6 +58,10 @@ namespace UnitsTests
 			Assert.AreEqual(100, new Measurement(1, Unit.Meter).ConvertTo(Unit.Centimeter).Value);
 			Assert.AreEqual(100, new Measurement(1, Unit.Second).ConvertTo("cs").Value);
 			Assert.AreEqual(3000, new Measurement(1, Unit.Yard).ConvertTo("mft").Value);
+			Assert.AreEqual(0.01, new Measurement(1, Unit.Second).ConvertTo("hs").Value);
+			Assert.AreEqual(1000_000_000, new Measurement(1, Unit.Second).ConvertTo("ns").Value);
+			Assert.AreEqual(1000_000, new Measurement(1, Unit.Second).ConvertTo("μs").Value);
+			Assert.AreEqual(0.00_000_0001, new Measurement(1, Unit.Second).ConvertTo("Gs").Value);
 		}
 	}
 }
