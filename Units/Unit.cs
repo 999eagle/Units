@@ -21,6 +21,7 @@ namespace Units
 			Shift = shift;
 		}
 
+		public Unit(string name, Unit baseUnit) : this(name, baseUnit.Dimension, baseUnit.Scale, baseUnit.Shift) { }
 		public Unit(string name, Unit baseUnit, Ratio scale) : this(name, baseUnit, scale, new Ratio(0)) { }
 		public Unit(string name, Unit baseUnit, Ratio scale, Ratio shift)
 		{

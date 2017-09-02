@@ -120,6 +120,8 @@ namespace Units
 					.Select(s => { var success = TryParseUnit(s, out var unit); return (success, unit); });
 				if (units.Any(t => !t.success)) return false;
 				result = units.Aggregate(Scalar, (s, t) => s * t.unit);
+				var name = units.Aggregate("", (s, t) => $"{s}{(s != "" ? "*" : "")}{t.unit.Name}");
+				result = new Unit(name, result);
 			}
 			else if (text.Contains("^"))
 			{
@@ -127,7 +129,7 @@ namespace Units
 				if (split.Length > 2) return false;
 				if (!TryParseUnit(split[0], out var unit)) return false;
 				if (!Int32.TryParse(split[1], out var exp)) return false;
-				result = unit ^ exp;
+				result = new Unit($"{unit.Name}^{exp}", unit ^ exp);
 			}
 			else
 			{
@@ -145,6 +147,12 @@ namespace Units
 				result = knownUnits.FirstOrDefault(u => u.Name == text);
 				if (result.Dimension == Dimension.ScalarDimension) return false;
 				result = new Unit(prefix + result.Name, result, ratio);
+			}
+			// Store new unit as known unit
+			var newUnit = result;
+			if (result.Name != "" && !knownUnits.Any(u => u == newUnit))
+			{
+				knownUnits.Add(result);
 			}
 			return true;
 		}
