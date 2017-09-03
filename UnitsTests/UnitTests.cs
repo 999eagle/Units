@@ -27,29 +27,24 @@ namespace UnitsTests
 		[TestMethod]
 		public void TestParsing()
 		{
-			Unit ParseUnit(string text)
-			{
-				if (!Unit.TryParseUnit(text, out var unit)) throw new Exception();
-				return unit;
-			}
+			Assert.AreEqual(Unit.Kilogram / Unit.Second, Unit.Parse("kg/s"));
+			Assert.AreEqual(Unit.Kilogram / Unit.Second, Unit.Parse("kg / s"));
+			Assert.AreEqual(Unit.Kilogram / Unit.Second, Unit.Parse("kg * s^-1"));
+			Assert.AreEqual(Unit.Kilogram / Unit.Second, Unit.Parse("kg * s/s ^ 2"));
 
-			Assert.AreEqual(Unit.Kilogram / Unit.Second, ParseUnit("kg/s"));
-			Assert.AreEqual(Unit.Kilogram / Unit.Second, ParseUnit("kg / s"));
-			Assert.AreEqual(Unit.Kilogram / Unit.Second, ParseUnit("kg * s^-1"));
-			Assert.AreEqual(Unit.Kilogram / Unit.Second, ParseUnit("kg * s/s ^ 2"));
+			Assert.AreEqual(Unit.Kilogram, Unit.Parse("kg"));
 
-			Assert.AreEqual(Unit.Kilogram, ParseUnit("kg"));
-
-			var u = ParseUnit("Ms"); // mega-second
+			var u = Unit.Parse("Ms"); // mega-second
 			Assert.IsTrue(u.Dimension == Dimension.TimeDimension);
 			Assert.AreEqual(1000000, new Measurement(1, u).ConvertTo("s").Value);
 
-			Assert.AreEqual(Unit.Kilogram / Unit.Second, ParseUnit("Mg / ks"));
+			Assert.AreEqual(Unit.Kilogram / Unit.Second, Unit.Parse("Mg / ks"));
 
-			Assert.AreEqual(Unit.Scalar, ParseUnit("kg^0*s/Hz^-1"));
+			Assert.AreEqual(Unit.Scalar, Unit.Parse("kg^0*s/Hz^-1"));
 
-			Assert.IsFalse(Unit.TryParseUnit("xs", out u));
-			Assert.IsFalse(Unit.TryParseUnit("f^-1/Hz", out u));
+			Assert.IsFalse(Unit.TryParse("xs", out u));
+			Assert.ThrowsException<FormatException>(() => Unit.Parse("xs"));
+			Assert.ThrowsException<FormatException>(() => Unit.Parse("f^-1/Hz"));
 		}
 
 		[TestMethod]
