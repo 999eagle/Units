@@ -203,7 +203,7 @@ namespace Units
 			return (result.basicUnits, result.unit, true);
 		}
 
-		public static bool TryParseUnit(string text, out Unit result)
+		public static bool TryParse(string text, out Unit result)
 		{
 			var parsed = ParseUnitInternal(text);
 			if (!parsed.success)
@@ -227,6 +227,12 @@ namespace Units
 				result = knownUnit;
 			}
 			return true;
+		}
+
+		public static Unit Parse(string text)
+		{
+			if (TryParse(text, out var unit)) return unit;
+			throw new FormatException("Can't parse unit.");
 		}
 	}
 }

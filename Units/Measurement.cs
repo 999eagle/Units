@@ -46,8 +46,7 @@ namespace Units
 
 		public Measurement ConvertTo(string newUnit)
 		{
-			if (!Unit.TryParseUnit(newUnit, out var unit)) throw new Exception();
-			return ConvertTo(unit);
+			return ConvertTo(Unit.Parse(newUnit));
 		}
 
 		public static Measurement operator *(Measurement lhs, Measurement rhs)
