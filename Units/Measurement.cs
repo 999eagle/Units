@@ -15,6 +15,8 @@ namespace Units
 			Unit = unit;
 		}
 
+		public Measurement(double value, string unit) : this(value, Unit.Parse(unit)) { }
+
 		public Measurement ToBaseUnits() => ConvertTo(Unit.GetUnitForDimension(Unit.Dimension));
 
 		public override string ToString()
