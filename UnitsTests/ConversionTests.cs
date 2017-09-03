@@ -24,9 +24,9 @@ namespace UnitsTests
 		public void TestVelocity()
 		{
 			var kmh = new Measurement(36, Unit.Kilometer / Unit.Hour);
-			var ms = new Measurement(10, Unit.MetersPerSecond);
+			var ms = new Measurement(10, Unit.MeterPerSecond);
 
-			Assert.AreEqual(10, kmh.ConvertTo(Unit.MetersPerSecond).Value);
+			Assert.AreEqual(10, kmh.ConvertTo(Unit.MeterPerSecond).Value);
 			Assert.AreEqual(36, ms.ConvertTo(Unit.Kilometer / Unit.Hour).Value);
 		}
 
@@ -34,10 +34,10 @@ namespace UnitsTests
 		public void TestConvertability()
 		{
 			Assert.IsTrue(Unit.Hour.CanConvertTo(Unit.Second));
-			Assert.IsFalse(Unit.Radians.CanConvertTo(Unit.Scalar));
+			Assert.IsFalse(Unit.Radian.CanConvertTo(Unit.Scalar));
 			Assert.IsFalse(Unit.SquareMeter.CanConvertTo(Unit.Meter));
-			Assert.IsTrue(Unit.SquareMeter.CanConvertTo(Unit.Furlong * Unit.Foot));
-			Assert.IsTrue(Unit.Siemens.CanConvertTo(Unit.Ampere / Unit.Volt));
+			Assert.IsTrue(Unit.SquareMeter.CanConvertTo(Unit.Length.Furlong * Unit.Foot));
+			Assert.IsTrue(Unit.Conductance.Siemens.CanConvertTo(Unit.Ampere / Unit.Volt));
 		}
 	}
 }
