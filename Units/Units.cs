@@ -472,6 +472,7 @@ namespace Units
 					.Where(f => f.IsStatic && f.IsPublic && f.FieldType == typeof(Unit))
 					.Select(f => (Unit)f.GetValue(null)))
 			.Aggregate(Enumerable.Union)
+			.Union(new[] { Scalar })
 			.ToList();
 
 		public static Unit GetUnitForDimension(Dimension dim)
@@ -560,7 +561,7 @@ namespace Units
 			}
 			else if (text.Contains("*"))
 			{
-				var units = text.Split('*').Select(ParseUnitInternal);
+				var units = text.Split('*').Select(ParseUnitInternal).ToList();
 				if (units.Any(t => !t.success)) return failed;
 
 				result = (units.Select(t => t.basicUnits).Aggregate(Enumerable.Union), units.Select(t => t.unit).Aggregate(Scalar, (s, t) => s * t));
@@ -602,7 +603,7 @@ namespace Units
 				result = (new[] { (name: text, exponent: 1) }, unit);
 			}
 
-			return (result.basicUnits, result.unit, true);
+			return (result.basicUnits.ToList(), result.unit, true);
 		}
 
 		public static bool TryParse(string text, out Unit result)
