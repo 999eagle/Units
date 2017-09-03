@@ -39,7 +39,6 @@ namespace Units
 
 		public Measurement ConvertTo(Unit newUnit)
 		{
-			if (!Unit.CanConvertTo(newUnit)) { throw new Exception(); }
 			var conversion = Unit.ConvertTo(newUnit);
 			return new Measurement(Value * conversion.scale + conversion.shift, newUnit);
 		}
@@ -61,7 +60,7 @@ namespace Units
 
 		public static Measurement operator +(Measurement lhs, Measurement rhs)
 		{
-			if (!lhs.Unit.CanConvertTo(rhs.Unit)) throw new Exception();
+			if (!lhs.Unit.CanConvertTo(rhs.Unit)) throw new InvalidOperationException("Adding measurements requires convertible units.");
 			if (lhs.Unit == rhs.Unit)
 			{
 				return new Measurement(lhs.Value + rhs.Value, lhs.Unit);
@@ -80,7 +79,7 @@ namespace Units
 
 		public static Measurement operator -(Measurement lhs, Measurement rhs)
 		{
-			if (!lhs.Unit.CanConvertTo(rhs.Unit)) throw new Exception();
+			if (!lhs.Unit.CanConvertTo(rhs.Unit)) throw new InvalidOperationException("Subtracting measurements requires convertible units.");
 			return lhs + (-rhs);
 		}
 

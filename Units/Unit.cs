@@ -45,7 +45,7 @@ namespace Units
 
 		public static Unit operator ^(Unit lhs, int rhs)
 		{
-			if (lhs.Shift != 0) throw new Exception();
+			if (lhs.Shift != 0) throw new InvalidOperationException("Can't exponentiate shifted units.");
 			Ratio scale;
 			if (rhs < 0)
 			{
@@ -72,7 +72,7 @@ namespace Units
 
 		public (Ratio scale, Ratio shift) ConvertTo(Unit other)
 		{
-			if (!CanConvertTo(other)) { throw new Exception(); }
+			if (!CanConvertTo(other)) { throw new InvalidOperationException("Can't convert between units of different dimensions."); }
 			var scale = other.Scale / Scale;
 			return (scale, other.Shift - Shift * scale);
 		}
