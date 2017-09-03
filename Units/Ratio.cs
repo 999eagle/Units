@@ -6,13 +6,13 @@ namespace Units
 {
 	public struct Ratio
 	{
-		public int Numerator { get; }
-		public int Denominator { get; }
+		public long Numerator { get; }
+		public long Denominator { get; }
 
 		public bool IsValid { get => Denominator != 0; }
 		
-		public Ratio(int numerator) : this(numerator, 1) { }
-		public Ratio(int numerator, int denominator)
+		public Ratio(long numerator) : this(numerator, 1) { }
+		public Ratio(long numerator, long denominator)
 		{
 			Numerator = numerator;
 			Denominator = denominator;
@@ -21,7 +21,7 @@ namespace Units
 		public Ratio GetReduced()
 		{
 			if (!IsValid) { return new Ratio(0, 0); }
-			int gcd = Util.GCD(Numerator, Denominator);
+			var gcd = Util.GCD(Numerator, Denominator);
 			if (Denominator < 0 && gcd > 0) { gcd *= -1; } // make sure that the denominator ends up positive
 			return new Ratio(Numerator / gcd, Denominator / gcd);
 		}
@@ -41,18 +41,18 @@ namespace Units
 		public static Ratio operator +(Ratio lhs, Ratio rhs)
 		{
 			if (!lhs.IsValid || !rhs.IsValid) { return new Ratio(0, 0); }
-			int gcd = Util.GCD(lhs.Denominator, rhs.Denominator);
-			int lhsFactor = rhs.Denominator / gcd;
-			int rhsFactor = lhs.Denominator / gcd;
+			var gcd = Util.GCD(lhs.Denominator, rhs.Denominator);
+			var lhsFactor = rhs.Denominator / gcd;
+			var rhsFactor = lhs.Denominator / gcd;
 			return new Ratio(lhs.Numerator * lhsFactor + rhs.Numerator * rhsFactor, lhs.Denominator * lhsFactor);
 		}
 
 		public static Ratio operator -(Ratio lhs, Ratio rhs)
 		{
 			if (!lhs.IsValid || !rhs.IsValid) { return new Ratio(0, 0); }
-			int gcd = Util.GCD(lhs.Denominator, rhs.Denominator);
-			int lhsFactor = rhs.Denominator / gcd;
-			int rhsFactor = lhs.Denominator / gcd;
+			var gcd = Util.GCD(lhs.Denominator, rhs.Denominator);
+			var lhsFactor = rhs.Denominator / gcd;
+			var rhsFactor = lhs.Denominator / gcd;
 			return new Ratio(lhs.Numerator * lhsFactor - rhs.Numerator * rhsFactor, lhs.Denominator * lhsFactor);
 		}
 
