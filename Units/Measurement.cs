@@ -15,7 +15,7 @@ namespace Units
 			Unit = unit;
 		}
 
-		public Measurement ToBaseUnits() => new Measurement((Value - Unit.Shift) / Unit.Scale, Unit.GetUnitForDimension(Unit.Dimension));
+		public Measurement ToBaseUnits() => ConvertTo(Unit.GetUnitForDimension(Unit.Dimension));
 
 		public override string ToString()
 		{
@@ -65,16 +65,12 @@ namespace Units
 			{
 				return new Measurement(lhs.Value + rhs.Value, lhs.Unit);
 			}
-			else if (rhs.Unit.Shift == 0 && lhs.Unit.Shift != 0)
-			{
-				var converted = lhs.ConvertTo(rhs.Unit);
-				return new Measurement(converted.Value + rhs.Value, rhs.Unit);
-			}
-			else
-			{
-				var converted = rhs.ConvertTo(lhs.Unit);
-				return new Measurement(lhs.Value + converted.Value, lhs.Unit);
-			}
+			// I hate temperatures... How do you add 30°C to 86°F? Fuck these unit shifts I have to carry around everywhere...
+			// Even this doesn't make any sense! What should 30°C+30°C be? 60°C? 606.3K because 30°C=273.15K?
+			// And now start doing stuff in Fahrenheit and Rankine! What's 50°R+50°C? It's a useless number!
+			if (lhs.Unit.Shift != rhs.Unit.Shift) throw new InvalidOperationException("Differently shifted units can't be added.");
+			var rhsConverted = rhs.ConvertTo(lhs.Unit);
+			return rhsConverted + lhs;
 		}
 
 		public static Measurement operator -(Measurement lhs, Measurement rhs)
