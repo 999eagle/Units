@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -57,6 +58,23 @@ namespace UnitsTests
 			Assert.AreEqual(1000_000_000, new Measurement(1, Unit.Second).ConvertTo("ns").Value);
 			Assert.AreEqual(1000_000, new Measurement(1, Unit.Second).ConvertTo("μs").Value);
 			Assert.AreEqual(0.00_000_0001, new Measurement(1, Unit.Second).ConvertTo("Gs").Value);
+		}
+
+		[TestMethod]
+		public void TestUnitDimensions()
+		{
+			Unit.TryParse("", out _); // access anything to ensure that .cctor is called
+
+			var unitClasses = typeof(Unit).GetNestedTypes().Where(t => t.IsClass && t.IsNestedPublic);
+			foreach (var unitClass in unitClasses)
+			{
+				var units = unitClass.GetFields().Where(f => f.IsStatic && f.IsPublic && f.FieldType == typeof(Unit)).Select(f => (Unit)f.GetValue(null));
+				var targetDimension = units.First().Dimension;
+				foreach (var unit in units.Skip(1))
+				{
+					if (unit.Dimension != targetDimension) Assert.Fail($"{unit.Name} in class {unitClass.Name} has wrong dimension!");
+				}
+			}
 		}
 	}
 }
