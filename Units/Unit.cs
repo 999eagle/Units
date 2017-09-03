@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 
 namespace Units
 {
@@ -49,11 +50,11 @@ namespace Units
 			Ratio scale;
 			if (rhs < 0)
 			{
-				scale = new Ratio((int)Math.Pow(lhs.Scale.Denominator, -rhs), (int)Math.Pow(lhs.Scale.Numerator, -rhs));
+				scale = new Ratio(BigInteger.Pow(lhs.Scale.Denominator, -rhs), BigInteger.Pow(lhs.Scale.Numerator, -rhs));
 			}
 			else
 			{
-				scale = new Ratio((int)Math.Pow(lhs.Scale.Numerator, rhs), (int)Math.Pow(lhs.Scale.Denominator, rhs));
+				scale = new Ratio(BigInteger.Pow(lhs.Scale.Numerator, rhs), BigInteger.Pow(lhs.Scale.Denominator, rhs));
 			}
 			return GetKnownUnit(lhs.Dimension ^ rhs, scale.GetReduced(), new Ratio(0));
 		}

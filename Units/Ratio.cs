@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace Units
 {
 	public struct Ratio
 	{
-		public long Numerator { get; }
-		public long Denominator { get; }
+		public BigInteger Numerator { get; }
+		public BigInteger Denominator { get; }
 
 		public bool IsValid { get => Denominator != 0; }
 		
-		public Ratio(long numerator) : this(numerator, 1) { }
-		public Ratio(long numerator, long denominator)
+		public Ratio(BigInteger numerator) : this(numerator, 1) { }
+		public Ratio(BigInteger numerator, BigInteger denominator)
 		{
 			Numerator = numerator;
 			Denominator = denominator;
@@ -21,7 +22,7 @@ namespace Units
 		public Ratio GetReduced()
 		{
 			if (!IsValid) { return new Ratio(0, 0); }
-			var gcd = Util.GCD(Numerator, Denominator);
+			var gcd = BigInteger.GreatestCommonDivisor(Numerator, Denominator);
 			if (Denominator < 0 && gcd > 0) { gcd *= -1; } // make sure that the denominator ends up positive
 			return new Ratio(Numerator / gcd, Denominator / gcd);
 		}
@@ -41,7 +42,7 @@ namespace Units
 		public static Ratio operator +(Ratio lhs, Ratio rhs)
 		{
 			if (!lhs.IsValid || !rhs.IsValid) { return new Ratio(0, 0); }
-			var gcd = Util.GCD(lhs.Denominator, rhs.Denominator);
+			var gcd = BigInteger.GreatestCommonDivisor(lhs.Denominator, rhs.Denominator);
 			var lhsFactor = rhs.Denominator / gcd;
 			var rhsFactor = lhs.Denominator / gcd;
 			return new Ratio(lhs.Numerator * lhsFactor + rhs.Numerator * rhsFactor, lhs.Denominator * lhsFactor);
@@ -50,7 +51,7 @@ namespace Units
 		public static Ratio operator -(Ratio lhs, Ratio rhs)
 		{
 			if (!lhs.IsValid || !rhs.IsValid) { return new Ratio(0, 0); }
-			var gcd = Util.GCD(lhs.Denominator, rhs.Denominator);
+			var gcd = BigInteger.GreatestCommonDivisor(lhs.Denominator, rhs.Denominator);
 			var lhsFactor = rhs.Denominator / gcd;
 			var rhsFactor = lhs.Denominator / gcd;
 			return new Ratio(lhs.Numerator * lhsFactor - rhs.Numerator * rhsFactor, lhs.Denominator * lhsFactor);
@@ -65,7 +66,7 @@ namespace Units
 		public static implicit operator double(Ratio ratio)
 		{
 			if (!ratio.IsValid) { return double.NaN; }
-			return (double)ratio.Numerator / ratio.Denominator;
+			return (double)ratio.Numerator / (double)ratio.Denominator;
 		}
 
 		public static bool operator ==(Ratio lhs, Ratio rhs)
