@@ -133,8 +133,7 @@ namespace Units
 
 		#endregion
 
-		#region Derived Units with special names
-
+		// No dependencies
 		#region Solid Angle Units
 		public static class SolidAngle
 		{
@@ -143,6 +142,7 @@ namespace Units
 		public static readonly Unit Steradian = SolidAngle.Steradian;
 		#endregion
 
+		// No dependencies
 		#region Frequency Units
 		public static class Frequency
 		{
@@ -151,74 +151,7 @@ namespace Units
 		public static readonly Unit Herz = Frequency.Hertz;
 		#endregion
 
-		#region Force Units
-		public static class Force
-		{
-			public static readonly Unit Newton = new Unit("N", Dimension.ForceDimension);
-			public static readonly Unit Kilopond = new Unit("kp", Kilogram * Acceleration.StandardGravity);
-			public static readonly Unit KilogramForce = Kilopond;
-			public static readonly Unit PoundForce = new Unit("lbf", Pound * Acceleration.StandardGravity);
-			public static readonly Unit OunceForce = new Unit("ozf", Ounce * Acceleration.StandardGravity);
-			public static readonly Unit Poundal = new Unit("pdl", Pound * Foot / (Second ^ 2));
-		}
-		public static readonly Unit Newton = Force.Newton;
-		public static readonly Unit PoundForce = Force.PoundForce;
-		#endregion
-
-		#region Pressure Units
-		public static class Pressure
-		{
-			public static readonly Unit Pascal = new Unit("Pa", Dimension.PressureDimension);
-			public static readonly Unit Atmosphere = new Unit("atm", Pascal, new Ratio(1, 101325));
-			public static readonly Unit Bar = new Unit("bar", Pascal, new Ratio(1, 100000));
-			public static readonly Unit PoundPerSquareInch = new Unit("psi", PoundForce / SquareInch);
-			public static readonly Unit PoundalPerSquareInch = new Unit("pdl/sq ft", Force.Poundal / SquareInch);
-			public static readonly Unit MillimeterOfMercury = new Unit("mmHg", Pascal, new Ratio(1_000, 133_3224));
-			public static readonly Unit MeterOfMercury = new Unit("mHg", MillimeterOfMercury, new Ratio(1, 1000));
-		}
-		public static readonly Unit Pascal = Pressure.Pascal;
-		public static readonly Unit PoundPerSquareInch = Pressure.PoundPerSquareInch;
-		#endregion
-
-		#region Energy Units
-		public static class Energy
-		{
-			public static readonly Unit Joule = new Unit("J", Dimension.EnergyDimension);
-			public static readonly Unit Calorie = new Unit("cal", Joule, new Ratio(1_0000, 4_1855));
-			public static readonly Unit Kilocalorie = new Unit("kcal", Calorie, new Ratio(1, 1000));
-			public static readonly Unit FootPoundForce = new Unit("ft*lbf", Foot * PoundForce);
-			public static readonly Unit FootPoundal = new Unit("ft*pdl", Foot * Force.Poundal);
-			public static readonly Unit KilowattHour = new Unit("kW*h", Kilowatt * Hour);
-			public static readonly Unit HorsepowerHour = new Unit("hp*h", Power.Horsepower * Hour);
-		}
-		public static readonly Unit Joule = Energy.Joule;
-		public static readonly Unit Kilocalorie = Energy.Kilocalorie;
-		public static readonly Unit KilowattHour = Energy.KilowattHour;
-		#endregion
-
-		#region Power Units
-		public static class Power
-		{
-			public static readonly Unit Watt = new Unit("W", Dimension.PowerDimension);
-			public static readonly Unit Kilowatt = new Unit("kW", Watt, new Ratio(1, 1000));
-			public static readonly Unit Horsepower = new Unit("hp", Energy.FootPoundForce / Second, new Ratio(1, 550));
-			public static readonly Unit FootPoundForcePerSecond = new Unit("ft*lbf/s", Energy.FootPoundForce / Second);
-			public static readonly Unit FootPoundForcePerMinute = new Unit("ft*lbf/min", Energy.FootPoundForce / Minute);
-		}
-		public static readonly Unit Watt = Power.Watt;
-		public static readonly Unit Kilowatt = Power.Kilowatt;
-		#endregion
-
-		#region Electric Charge Units
-		public static class ElectricCharge
-		{
-			public static readonly Unit Coulomb = new Unit("C", Dimension.ElectricChargeDimension);
-			public static readonly Unit MilliampereHour = new Unit("mA*h", Ampere * Hour, new Ratio(1000));
-		}
-		public static readonly Unit Coulomb = ElectricCharge.Coulomb;
-		public static readonly Unit MilliampereHour = ElectricCharge.MilliampereHour;
-		#endregion
-
+		// No dependencies
 		#region Voltage Units
 		public class Voltage
 		{
@@ -227,6 +160,7 @@ namespace Units
 		public static readonly Unit Volt = Voltage.Volt;
 		#endregion
 
+		// No dependencies
 		#region Capacitance Units
 		public static class Capacitance
 		{
@@ -235,6 +169,7 @@ namespace Units
 		public static readonly Unit Farad = Capacitance.Farad;
 		#endregion
 
+		// No dependencies
 		#region Electric Resistance Units
 		public static class ElectricResistance
 		{
@@ -243,6 +178,7 @@ namespace Units
 		public static readonly Unit Ohm = ElectricResistance.Ohm;
 		#endregion
 
+		// No dependencies
 		#region Conductance Units
 		public static class Conductance
 		{
@@ -250,6 +186,7 @@ namespace Units
 		}
 		#endregion
 
+		// No dependencies
 		#region Magnetic Flux Units
 		public static class MagneticFlux
 		{
@@ -258,6 +195,7 @@ namespace Units
 		}
 		#endregion
 
+		// No dependencies
 		#region Magnetic Flux Density Units
 		public static class MagneticFluxDensity
 		{
@@ -266,6 +204,7 @@ namespace Units
 		}
 		#endregion
 
+		// No dependencies
 		#region Inductance Units
 		public static class Inductance
 		{
@@ -273,6 +212,7 @@ namespace Units
 		}
 		#endregion
 
+		// No dependencies
 		#region Luminous Flux Units
 		public static class LuminousFlux
 		{
@@ -280,19 +220,7 @@ namespace Units
 		}
 		#endregion
 
-		#region Illuminance Units
-		public static class Illuminance
-		{
-			public static readonly Unit Lux = new Unit("lx", Dimension.IlluminanceDimension);
-			public static readonly Unit LumenPerSquareInch = new Unit("lm/in^2", LuminousFlux.Lumen / SquareInch);
-			public static readonly Unit Footcandle = new Unit("fc", LuminousFlux.Lumen / SquareFoot);
-		}
-		#endregion
-
-		#endregion
-
-		#region Other derived Units
-
+		// Depends on Length
 		#region Area Units
 		public static class Area
 		{
@@ -311,6 +239,7 @@ namespace Units
 		public static readonly Unit SquareFoot = Area.SquareFoot;
 		#endregion
 
+		// Depends on Length
 		#region Volume Units
 		public static class Volume
 		{
@@ -329,22 +258,7 @@ namespace Units
 		public static readonly Unit CubicFoot = Volume.CubicFoot;
 		#endregion
 
-		#region Density Units
-		public static class Density
-		{
-			public static readonly Unit KilogramPerCubicMeter = new Unit("kg/m^3", Kilogram / CubicMeter);
-			public static readonly Unit GramPerMilliliter = new Unit("g/ml", Mass.Gram / Volume.Milliliter);
-			public static readonly Unit PoundPerCubicFoot = new Unit("lb/ft^3", Pound / CubicFoot);
-			public static readonly Unit PoundPerCubicInch = new Unit("lb/in^3", Pound / Volume.CubicInch);
-			public static readonly Unit OuncePerCubicFoot = new Unit("oz/ft^3", Ounce / CubicFoot);
-			public static readonly Unit OuncePerCubicInch = new Unit("oz/in^3", Ounce / Volume.CubicInch);
-		}
-		public static readonly Unit KilogramPerCubicMeter = Density.KilogramPerCubicMeter;
-		public static readonly Unit GramPerMilliliter = Density.GramPerMilliliter;
-		public static readonly Unit PoundPerCubicFoot = Density.PoundPerCubicFoot;
-		public static readonly Unit OuncePerCubicInch = Density.OuncePerCubicInch;
-		#endregion
-
+		// Depends on Length, Time
 		#region Velocity Units
 		public static class Velocity
 		{
@@ -373,6 +287,45 @@ namespace Units
 		public static readonly Unit Knot = Velocity.Knot;
 		#endregion
 
+		// Depends on Electric Current, Time
+		#region Electric Charge Units
+		public static class ElectricCharge
+		{
+			public static readonly Unit Coulomb = new Unit("C", Dimension.ElectricChargeDimension);
+			public static readonly Unit MilliampereHour = new Unit("mA*h", Ampere * Hour, new Ratio(1000));
+		}
+		public static readonly Unit Coulomb = ElectricCharge.Coulomb;
+		public static readonly Unit MilliampereHour = ElectricCharge.MilliampereHour;
+		#endregion
+
+		// Depends on Mass, Volume
+		#region Density Units
+		public static class Density
+		{
+			public static readonly Unit KilogramPerCubicMeter = new Unit("kg/m^3", Kilogram / CubicMeter);
+			public static readonly Unit GramPerMilliliter = new Unit("g/ml", Mass.Gram / Volume.Milliliter);
+			public static readonly Unit PoundPerCubicFoot = new Unit("lb/ft^3", Pound / CubicFoot);
+			public static readonly Unit PoundPerCubicInch = new Unit("lb/in^3", Pound / Volume.CubicInch);
+			public static readonly Unit OuncePerCubicFoot = new Unit("oz/ft^3", Ounce / CubicFoot);
+			public static readonly Unit OuncePerCubicInch = new Unit("oz/in^3", Ounce / Volume.CubicInch);
+		}
+		public static readonly Unit KilogramPerCubicMeter = Density.KilogramPerCubicMeter;
+		public static readonly Unit GramPerMilliliter = Density.GramPerMilliliter;
+		public static readonly Unit PoundPerCubicFoot = Density.PoundPerCubicFoot;
+		public static readonly Unit OuncePerCubicInch = Density.OuncePerCubicInch;
+		#endregion
+
+		// Depends on Luminous Flux, Area
+		#region Illuminance Units
+		public static class Illuminance
+		{
+			public static readonly Unit Lux = new Unit("lx", Dimension.IlluminanceDimension);
+			public static readonly Unit LumenPerSquareInch = new Unit("lm/in^2", LuminousFlux.Lumen / SquareInch);
+			public static readonly Unit Footcandle = new Unit("fc", LuminousFlux.Lumen / SquareFoot);
+		}
+		#endregion
+
+		// Depends on Volume, Time
 		#region Flow Units
 		public static class Flow
 		{
@@ -386,6 +339,7 @@ namespace Units
 		}
 		#endregion
 
+		// Depends on Length, Time, Velocity
 		#region Acceleration Units
 		public static class Acceleration
 		{
@@ -398,26 +352,7 @@ namespace Units
 		public static readonly Unit MeterPerSecondSquared = Acceleration.MeterPerSecondSquared;
 		#endregion
 
-		#region Torque Units
-		public static class Torque
-		{
-			public static readonly Unit NewtonMeter = new Unit("N*m", Newton * Meter);
-			public static readonly Unit MeterKilogramForce = new Unit("m*kgf", Meter * Force.Kilopond);
-			public static readonly Unit FootPoundForce = new Unit("ft*lbf", Foot * PoundForce);
-			public static readonly Unit FootPoundal = new Unit("ft*pdl", Foot * Force.Poundal);
-		}
-		#endregion
-
-		#region Dynamic Viscosity Units
-		public static class DynamicViscosity
-		{
-			public static readonly Unit PascalSecond = new Unit("Pa*s", Pascal * Second);
-			public static readonly Unit PoundPerFootSecond = new Unit("lb/ft*s", Pound / (Foot * Second));
-			public static readonly Unit PoundForceSecondPerSquareFoot = new Unit("lbf*s/ft^2", PoundForce * Second / SquareFoot);
-			public static readonly Unit PoundForceSecondPerSquareInch = new Unit("lbf*s/in^2", PoundForce * Second / SquareInch);
-		}
-		#endregion
-
+		// Depends on Area, Time
 		#region Kinematic Viscosity Units
 		public static class KinematicViscosity
 		{
@@ -426,6 +361,7 @@ namespace Units
 		}
 		#endregion
 
+		// Depends on Electric Charge, Length
 		#region Electric Dipole Units
 		public static class ElectricDipole
 		{
@@ -433,6 +369,7 @@ namespace Units
 		}
 		#endregion
 
+		// Depends on Luminous Intensity, Area
 		#region Luminance Units
 		public static class Luminance
 		{
@@ -443,12 +380,98 @@ namespace Units
 		}
 		#endregion
 
+		// Depends on Mass, Acceleration, Length, Time
+		#region Force Units
+		public static class Force
+		{
+			public static readonly Unit Newton = new Unit("N", Dimension.ForceDimension);
+			public static readonly Unit Kilopond = new Unit("kp", Kilogram * Acceleration.StandardGravity);
+			public static readonly Unit KilogramForce = Kilopond;
+			public static readonly Unit PoundForce = new Unit("lbf", Pound * Acceleration.StandardGravity);
+			public static readonly Unit OunceForce = new Unit("ozf", Ounce * Acceleration.StandardGravity);
+			public static readonly Unit Poundal = new Unit("pdl", Pound * Foot / (Second ^ 2));
+		}
+		public static readonly Unit Newton = Force.Newton;
+		public static readonly Unit PoundForce = Force.PoundForce;
+		#endregion
+
+		// Depends on Force, Area
+		#region Pressure Units
+		public static class Pressure
+		{
+			public static readonly Unit Pascal = new Unit("Pa", Dimension.PressureDimension);
+			public static readonly Unit Atmosphere = new Unit("atm", Pascal, new Ratio(1, 101325));
+			public static readonly Unit Bar = new Unit("bar", Pascal, new Ratio(1, 100000));
+			public static readonly Unit PoundPerSquareInch = new Unit("psi", PoundForce / SquareInch);
+			public static readonly Unit PoundalPerSquareInch = new Unit("pdl/sq ft", Force.Poundal / SquareInch);
+			public static readonly Unit MillimeterOfMercury = new Unit("mmHg", Pascal, new Ratio(1_000, 133_3224));
+			public static readonly Unit MeterOfMercury = new Unit("mHg", MillimeterOfMercury, new Ratio(1, 1000));
+		}
+		public static readonly Unit Pascal = Pressure.Pascal;
+		public static readonly Unit PoundPerSquareInch = Pressure.PoundPerSquareInch;
+		#endregion
+
+		// Depends on Force, Length
+		#region Torque Units
+		public static class Torque
+		{
+			public static readonly Unit NewtonMeter = new Unit("N*m", Newton * Meter);
+			public static readonly Unit MeterKilogramForce = new Unit("m*kgf", Meter * Force.Kilopond);
+			public static readonly Unit FootPoundForce = new Unit("ft*lbf", Foot * PoundForce);
+			public static readonly Unit FootPoundal = new Unit("ft*pdl", Foot * Force.Poundal);
+		}
+		#endregion
+
+		// Depends on Pressure, Time, Length, Force, Area, Mass
+		#region Dynamic Viscosity Units
+		public static class DynamicViscosity
+		{
+			public static readonly Unit PascalSecond = new Unit("Pa*s", Pascal * Second);
+			public static readonly Unit PoundPerFootSecond = new Unit("lb/ft*s", Pound / (Foot * Second));
+			public static readonly Unit PoundForceSecondPerSquareFoot = new Unit("lbf*s/ft^2", PoundForce * Second / SquareFoot);
+			public static readonly Unit PoundForceSecondPerSquareInch = new Unit("lbf*s/in^2", PoundForce * Second / SquareInch);
+		}
+		#endregion
+
+		// Depends on Time, Length, Force
+		#region Power Units
+		public static class Power
+		{
+			public static readonly Unit Watt = new Unit("W", Dimension.PowerDimension);
+			public static readonly Unit Kilowatt = new Unit("kW", Watt, new Ratio(1, 1000));
+			public static readonly Unit Horsepower = new Unit("hp", Foot * PoundForce / Second, new Ratio(1, 550));
+			public static readonly Unit FootPoundForcePerSecond = new Unit("ft*lbf/s", Foot * PoundForce / Second);
+			public static readonly Unit FootPoundForcePerMinute = new Unit("ft*lbf/min", Foot * PoundForce / Minute);
+		}
+		public static readonly Unit Watt = Power.Watt;
+		public static readonly Unit Kilowatt = Power.Kilowatt;
+		#endregion
+
+		// Depends on Length, Force, Power, Time
+		#region Energy Units
+		public static class Energy
+		{
+			public static readonly Unit Joule = new Unit("J", Dimension.EnergyDimension);
+			public static readonly Unit Calorie = new Unit("cal", Joule, new Ratio(1_0000, 4_1855));
+			public static readonly Unit Kilocalorie = new Unit("kcal", Calorie, new Ratio(1, 1000));
+			public static readonly Unit FootPoundForce = new Unit("ft*lbf", Foot * PoundForce);
+			public static readonly Unit FootPoundal = new Unit("ft*pdl", Foot * Force.Poundal);
+			public static readonly Unit KilowattHour = new Unit("kW*h", Kilowatt * Hour);
+			public static readonly Unit HorsepowerHour = new Unit("hp*h", Power.Horsepower * Hour);
+		}
+		public static readonly Unit Joule = Energy.Joule;
+		public static readonly Unit Kilocalorie = Energy.Kilocalorie;
+		public static readonly Unit KilowattHour = Energy.KilowattHour;
 		#endregion
 
 		private static IList<Unit> knownUnits =
-			typeof(Unit).GetFields()
-			.Where(f => f.IsStatic && f.IsPublic && f.FieldType == typeof(Unit))
-			.Select(f => (Unit)f.GetValue(null))
+			typeof(Unit).GetNestedTypes()
+			.Where(t => t.IsNestedPublic && t.IsClass)
+			.Select(t =>
+				t.GetFields()
+					.Where(f => f.IsStatic && f.IsPublic && f.FieldType == typeof(Unit))
+					.Select(f => (Unit)f.GetValue(null)))
+			.Aggregate(Enumerable.Union)
 			.ToList();
 
 		public static Unit GetUnitForDimension(Dimension dim)
