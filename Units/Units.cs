@@ -55,8 +55,8 @@ namespace Units
 			public static readonly Unit Tonne = new Unit("t", Kilogram, new Ratio(1, 1000));
 			public static readonly Unit Pound = new Unit("lb", Kilogram, new Ratio(1_000_000_00, 0_453_592_37));
 			public static readonly Unit Ounce = new Unit("oz", Pound, new Ratio(16));
-			public static readonly Unit TroyOunce = new Unit("ozt", Grain, new Ratio(1, 480));
 			public static readonly Unit Grain = new Unit("gr", Pound, new Ratio(7000));
+			public static readonly Unit TroyOunce = new Unit("ozt", Grain, new Ratio(1, 480));
 		}
 		public static readonly Unit Kilogram = Mass.Kilogram;
 		public static readonly Unit Pound = Mass.Pound;

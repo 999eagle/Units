@@ -72,7 +72,8 @@ namespace UnitsTests
 				var targetDimension = units.First().Dimension;
 				foreach (var unit in units.Skip(1))
 				{
-					if (unit.Dimension != targetDimension) Assert.Fail($"{unit.Name} in class {unitClass.Name} has wrong dimension!");
+					if (unit.Dimension != targetDimension || unit.Dimension == Dimension.ScalarDimension) Assert.Fail($"{unit.Name} in class {unitClass.Name} has wrong dimension!");
+					if (!unit.Scale.IsValid || !unit.Shift.IsValid) Assert.Fail($"{unit.Name} has invalid scale or shift!");
 				}
 			}
 		}
