@@ -6,16 +6,16 @@ namespace Units
 {
 	public struct Measurement
 	{
-		public double Value { get; }
+		public Ratio Value { get; }
 		public Unit Unit { get; }
-
-		public Measurement(double value, Unit unit)
+		
+		public Measurement(Ratio value, Unit unit)
 		{
 			Value = value;
 			Unit = unit;
 		}
 
-		public Measurement(double value, string unit) : this(value, Unit.Parse(unit)) { }
+		public Measurement(Ratio value, string unit) : this(value, Unit.Parse(unit)) { }
 
 		public Measurement ToBaseUnits() => ConvertTo(Unit.GetUnitForDimension(Unit.Dimension));
 
@@ -23,14 +23,14 @@ namespace Units
 		{
 			if (Unit.Name != "")
 			{
-				return $"{Value} {Unit.Name}";
+				return $"{Value.ToDecimalString(4)} {Unit.Name}";
 			}
 			else
 			{
 				var baseUnits = ToBaseUnits();
 				if (baseUnits.Unit == Unit)
 				{
-					return $"{(Value - Unit.Shift) / Unit.Scale} {Unit.Dimension}";
+					return $"{((Value - Unit.Shift) / Unit.Scale).ToDecimalString(4)} {Unit.Dimension}";
 				}
 				else
 				{
