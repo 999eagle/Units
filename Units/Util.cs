@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace Units
@@ -35,6 +36,9 @@ namespace Units
 			return BitConverter.ToInt32(BitConverter.GetBytes((number << shift) | wrapped), 0);
 		}
 
+		private static readonly BigInteger zettaConversion = BigInteger.Pow(10, 21);
+		private static readonly BigInteger yottaConversion = BigInteger.Pow(10, 24);
+
 		public static Ratio GetPrefixRatio(char prefix)
 		{
 			switch (prefix)
@@ -46,8 +50,8 @@ namespace Units
 				case 'T': return new Ratio(1, 1000_000_000_000);
 				case 'P': return new Ratio(1, 1000_000_000_000_000);
 				case 'E': return new Ratio(1, 1000_000_000_000_000_000);
-				//case 'Z': return new Ratio(1, 1000_000_000_000_000_000_000);
-				//case 'Y': return new Ratio(1, 1000_000_000_000_000_000_000_000);
+				case 'Z': return new Ratio(1, zettaConversion);
+				case 'Y': return new Ratio(1, yottaConversion);
 				case 'c': return new Ratio(100);
 				case 'm': return new Ratio(1000);
 				case 'μ': return new Ratio(1000_000);
@@ -55,8 +59,8 @@ namespace Units
 				case 'p': return new Ratio(1000_000_000_000);
 				case 'f': return new Ratio(1000_000_000_000_000);
 				case 'a': return new Ratio(1000_000_000_000_000_000);
-				//case 'z': return new Ratio(1000_000_000_000_000_000_000);
-				//case 'y': return new Ratio(1000_000_000_000_000_000_000_000);
+				case 'z': return new Ratio(zettaConversion);
+				case 'y': return new Ratio(yottaConversion);
 				default: return new Ratio();
 			}
 		}
