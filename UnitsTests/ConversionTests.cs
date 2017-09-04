@@ -17,7 +17,7 @@ namespace UnitsTests
 			Assert.AreEqual(f, c.ConvertTo(Unit.Fahrenheit));
 
 			var converted = new Measurement(90, Unit.Fahrenheit).ConvertTo(Unit.Celsius).Value;
-			if (Math.Abs(converted - 32.22222222) > 0.000001) { Assert.Fail(); }
+			if (Math.Abs((double)converted - 32.22222222) > 0.000001) { Assert.Fail(); }
 		}
 
 		[TestMethod]

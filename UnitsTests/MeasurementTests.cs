@@ -24,13 +24,13 @@ namespace UnitsTests
 			Assert.IsTrue((cm + m).Value == 150);
 
 			Assert.IsTrue((m + cm).Unit == Unit.Meter);
-			Assert.IsTrue((m + cm).Value == 1.5);
+			Assert.IsTrue((m + cm).Value == (Ratio)1.5);
 
 			Assert.IsTrue((i + f).Unit == Unit.Inch);
 			Assert.IsTrue((i + f).Value == 18);
 
 			Assert.IsTrue((f + i).Unit == Unit.Foot);
-			Assert.IsTrue((f + i).Value == 1.5);
+			Assert.IsTrue((f + i).Value == (Ratio)1.5);
 
 			Assert.ThrowsException<InvalidOperationException>(() => s + m);
 		}
@@ -46,7 +46,7 @@ namespace UnitsTests
 			Assert.IsTrue((cm - m).Value == -50);
 
 			Assert.IsTrue((m - cm).Unit == Unit.Meter);
-			Assert.IsTrue((m - cm).Value == 0.5);
+			Assert.IsTrue((m - cm).Value == (Ratio)0.5);
 
 			Assert.ThrowsException<InvalidOperationException>(() => s - m);
 		}
