@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
 namespace Units
@@ -24,6 +25,7 @@ namespace Units
 			public static readonly Unit AstronomicalUnit = new Unit("au", Meter, new Ratio(1, 149597870700));
 			public static readonly Unit LightYear = new Unit("ly", Meter, new Ratio(1, 9_460_730_472_480_800));
 			public static readonly Unit Parsec = new Unit("pc", AstronomicalUnit, new Ratio(1000_000, 206_264_806_247));
+			public static readonly Unit Attoparsec = new Unit("apc", Parsec, new Ratio(1000_000_000_000_000_000));
 
 			public static readonly Unit Inch = new Unit("in", Centimeter, new Ratio(100, 254));
 			public static readonly Unit Foot = new Unit("ft", Inch, new Ratio(1, 12));
@@ -37,6 +39,9 @@ namespace Units
 
 			public static readonly Unit Point = new Unit("pt", Inch, new Ratio(72));
 			public static readonly Unit Twip = new Unit("tw", Inch, new Ratio(1440));
+
+			public static readonly Unit BeardSecond = new Unit("bs", Nanometer, new Ratio(1, 10));
+			public static readonly Unit Smoot = new Unit("smoot", Inch, new Ratio(1, 67));
 		}
 		public static readonly Unit Meter = Length.Meter;
 		public static readonly Unit Centimeter = Length.Centimeter;
@@ -53,10 +58,15 @@ namespace Units
 			public static readonly Unit Kilogram = new Unit("kg", Dimension.MassDimension);
 			public static readonly Unit Gram = new Unit("g", Kilogram, new Ratio(1000));
 			public static readonly Unit Tonne = new Unit("t", Kilogram, new Ratio(1, 1000));
+			public static readonly Unit Carat = new Unit("ct", Gram, new Ratio(5));
+
 			public static readonly Unit Pound = new Unit("lb", Kilogram, new Ratio(1_000_000_00, 0_453_592_37));
 			public static readonly Unit Ounce = new Unit("oz", Pound, new Ratio(16));
 			public static readonly Unit Grain = new Unit("gr", Pound, new Ratio(7000));
 			public static readonly Unit TroyOunce = new Unit("ozt", Grain, new Ratio(1, 480));
+			public static readonly Unit Firkin = new Unit("fir", Pound, new Ratio(1, 90));
+
+			public static readonly Unit UnifiedAtomicMassUnit = new Unit("u", Kilogram, new Ratio(BigInteger.Pow(10, 27) * 1_000_000_000, 1_660_539_040));
 		}
 		public static readonly Unit Kilogram = Mass.Kilogram;
 		public static readonly Unit Pound = Mass.Pound;
@@ -74,6 +84,7 @@ namespace Units
 			public static readonly Unit Fortnight = new Unit("fn", Week, new Ratio(1, 2));
 			public static readonly Unit Year = new Unit("a", Day, new Ratio(1, 365));
 			public static readonly Unit Century = new Unit("c", Year, new Ratio(1, 100));
+			public static readonly Unit Microfortnight = new Unit("μfn", Fortnight, new Ratio(1000_000));
 		}
 		public static readonly Unit Second = Time.Second;
 		public static readonly Unit Minute = Time.Minute;
@@ -251,7 +262,18 @@ namespace Units
 			public static readonly Unit Liter = new Unit("l", CubicMeter, new Ratio(1000));
 			public static readonly Unit Milliliter = new Unit("ml", Liter, new Ratio(1000));
 
-			// TODO: gallon, tbsp, ounce, quart, pint, etc.
+			public static readonly Unit GallonUS = new Unit("gal (US)", CubicInch, new Ratio(1, 231));
+			public static readonly Unit QuartUS = new Unit("qt (US)", GallonUS, new Ratio(4));
+			public static readonly Unit FluidOunceUS = new Unit("fl oz (US)", GallonUS, new Ratio(128));
+			public static readonly Unit PintUS = new Unit("pt (US)", GallonUS, new Ratio(8));
+			public static readonly Unit TablespoonUS = new Unit("tbsp (US)", FluidOunceUS, new Ratio(6));
+			public static readonly Unit CupUS = new Unit("c (US)", FluidOunceUS, new Ratio(1, 8));
+
+			public static readonly Unit GallonImperial = new Unit("gal (imp)", Liter, new Ratio(1_00000, 4_54609));
+			public static readonly Unit QuartImperial = new Unit("qt (imp)", GallonImperial, new Ratio(4));
+			public static readonly Unit FluidOunceImperial = new Unit("fl oz (imp)", GallonImperial, new Ratio(160));
+			public static readonly Unit PintImperial = new Unit("pt (imp)", GallonImperial, new Ratio(8));
+			public static readonly Unit TablespoonImperial = new Unit("tbsp (imp)", FluidOunceImperial, new Ratio(8, 5));
 		}
 		public static readonly Unit Liter = Volume.Liter;
 		public static readonly Unit CubicMeter = Volume.CubicMeter;
@@ -280,6 +302,9 @@ namespace Units
 			public static readonly Unit Knot = new Unit("kn", Length.NauticalMile / Hour);
 
 			public static readonly Unit FurlongPerFortnight = new Unit("fur/fn", Length.Furlong / Time.Fortnight);
+			public static readonly Unit AttoparsecPerMicrofortnight = new Unit("apc/μfn", Length.Attoparsec / Time.Microfortnight);
+
+			public static readonly Unit SpeedOfLight = new Unit("c", MeterPerSecond, new Ratio(1, 299_792_458));
 		}
 		public static readonly Unit MeterPerSecond = Velocity.MeterPerSecond;
 		public static readonly Unit KilometerPerHour = Velocity.KilometerPerHour;
