@@ -149,7 +149,8 @@ namespace Units
 
 			var adjustedNumerator = fractionalNumerator * BigInteger.Pow(10, precision);
 			var decimalPlaces = adjustedNumerator / Denominator;
-			if (decimalPlaces == 0) return "0.0";
+			if (decimalPlaces.Sign < 0) decimalPlaces = -decimalPlaces;
+			if (decimalPlaces == 0) return $"{wholePart.ToString()}.0";
 
 			var sb = new StringBuilder(wholePart.ToString());
 			sb.EnsureCapacity(sb.Length + precision + 1);
